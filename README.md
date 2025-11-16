@@ -25,3 +25,4 @@ Once the similarity matrix was generated, a recommendation function was implemen
 This project demonstrates key concepts of collaborative filtering and highlights how recommendation systems can be built using simple mathematical techniques without the need for complex deep learning models. The implementation is efficient, fully offline, and easy to extend to larger datasets.
 
 # OUTPUT
+<img width="340" height="612" alt="Image" src="https://github.com/user-attachments/assets/0e946419-5b11-4c3d-b70f-f7a954726f94" />
