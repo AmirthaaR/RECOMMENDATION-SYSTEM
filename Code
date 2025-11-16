@@ -1,0 +1,44 @@
+# ---------------------------------------------------------
+# TASK 4: RECOMMENDATION SYSTEM (Collaborative Filtering)
+# ---------------------------------------------------------
+
+import pandas as pd
+import numpy as np
+
+ratings = {
+    "User": ["A","A","A","B","B","C","C","C","D","D","E","E"],
+    "Movie": ["Movie1","Movie2","Movie3","Movie1","Movie2","Movie2","Movie3",
+              "Movie4","Movie1","Movie4","Movie2","Movie3"],
+    "Rating": [5,4,3,4,5,2,5,4,3,5,4,2]
+}
+
+df = pd.DataFrame(ratings)
+print("Ratings Dataset:")
+print(df)
+
+pivot_table = df.pivot_table(values='Rating', index='User', columns='Movie').fillna(0)
+print("\nUser–Item Matrix:")
+print(pivot_table)
+
+from sklearn.metrics.pairwise import cosine_similarity
+
+item_similarity = cosine_similarity(pivot_table.T)
+item_similarity_df = pd.DataFrame(item_similarity, 
+                                  index=pivot_table.columns, 
+                                  columns=pivot_table.columns)
+
+print("\nItem Similarity Matrix:")
+print(item_similarity_df)
+
+def recommend(movie_name, num_recommendations=3):
+    if movie_name not in item_similarity_df.columns:
+        return "Movie not found in dataset."
+    
+    similar_scores = item_similarity_df[movie_name].sort_values(ascending=False)
+    similar_scores = similar_scores.drop(movie_name)  # remove itself
+    
+    return similar_scores.head(num_recommendations)
+
+movie_to_recommend = "Movie2"
+print(f"\nTop recommendations similar to '{movie_to_recommend}':")
+print(recommend(movie_to_recommend))
